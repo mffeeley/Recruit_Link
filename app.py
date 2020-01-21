@@ -1,3 +1,4 @@
+import sys
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -15,8 +16,7 @@ def main():
         print('Company found')
     else:
         print('Sorry, try again?')
-        break
-
+        sys.exit()
 
 
 
