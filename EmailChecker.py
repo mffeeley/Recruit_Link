@@ -18,13 +18,13 @@ driver = webdriver.Chrome(chromedriver)
 driver.get(url)
 
 # Find the search bar
-searchBar = driver.find_element_by_xpath("/html/body/div[4]/div[1]/div[1]/form/div/div[2]/div/input")
+search_bar = driver.find_element_by_xpath("/html/body/div[4]/div[1]/div[1]/form/div/div[2]/div/input")
 
 # Enter the query
-searchBar.send_keys(email)
+search_bar.send_keys(email)
 
 # Click the search button
-searchButton = driver.find_element_by_xpath("/html/body/div[4]/div[1]/div[1]/form/div/div[2]/div/div[2]/button").click()
+search_button = driver.find_element_by_xpath("/html/body/div[4]/div[1]/div[1]/form/div/div[2]/div/div[2]/button").click()
 
 # Let it load
 time.sleep(1)
