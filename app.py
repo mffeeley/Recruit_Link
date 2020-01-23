@@ -1,24 +1,21 @@
-import sys
+import time
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from find_contact import find_contact
 
 
 def main():
-    chrome_options = Options()
-    # chrome_options.add_argument("--headless")
-    driver = webdriver.Chrome('/home/danrothdsp/chromedriver', options=chrome_options)
+    name, title, profile, company, company_website = find_contact()
+    print(f"Now searching for:\n\n"
+          f"{name}{title}")
 
-    company_url = input("Welcome to RecruitLink!  Please enter a company's LinkedIn url:\n")
-    driver.get(company_url)
-    soup = BeautifulSoup(driver.page_source, 'lxml')
-    if soup:
-        print('Company found')
-    else:
-        print('Sorry, try again?')
-        sys.exit()
+    # copy company url, send to hunter.io, try name chosen
+    # copy hunter output to email checker
 
-
+    # if pass, output email and metadata
+    # if fail, attempt other variations until ok
+    # if total fail, error message
 
 
 if __name__ == "__main__":
