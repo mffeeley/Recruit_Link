@@ -6,9 +6,9 @@ This repository includes code for Recruit_Link, a command-line utility that can 
 
 Fill in the code where it says "FILL".  The 3 locations that much be filled in are the chromedriver local directory, LinkedIn credentials, and Hunter.io API key.  Once that has been done, you can run the app using:
 
-'''
+```python
 python app.py
-'''
+```
 
 Then just follow the instructions in the command-line.  Make choices using the given number keys and then hit "enter."
 
@@ -31,7 +31,7 @@ Version 1.0
 
 ### Current Concerns/Issues
 
-* Dependent on Hunter.io and LinkedIn accounts
+* Dependent on Hunter.io and LinkedIn accounts.
 * May need more email permutations.
 
 ## Authors
