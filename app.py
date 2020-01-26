@@ -11,10 +11,11 @@ def main():
     linkedin_username = "FILL"
     linkedin_passkey = "FILL"
     hunter_apikey = "FILL"
+    chromedriver_dir = "FILL"
 
     listing_url = input("Welcome to Recruit_Link!  Please enter a job listing's LinkedIn url:\n")
     name, title, profile, company, company_website, job_title = \
-        find_contact(listing_url, linkedin_username, linkedin_passkey)
+        find_contact(listing_url, linkedin_username, linkedin_passkey, chromedriver_dir)
     print(f"Now searching for: {name.strip()}, {title.strip()}\n")
 
     message = f"Hi {name.split()[0]},\n" \

@@ -4,10 +4,10 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
 
-def find_contact(listing_url, username, passkey):
+def find_contact(listing_url, username, passkey, chromedriver):
     chrome_options = Options()
     chrome_options.add_argument("--headless")
-    driver = webdriver.Chrome("/home/danrothdsp/chromedriver", options=chrome_options)  # load chromedriver
+    driver = webdriver.Chrome(chromedriver, options=chrome_options)  # load chromedriver
 
     driver.get(listing_url)
     listing_soup = BeautifulSoup(driver.page_source, 'html.parser')
