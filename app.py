@@ -8,10 +8,14 @@ import pyperclip
 
 
 def main():
+    linkedin_username = "FILL"
+    linkedin_passkey = "FILL"
+    hunter_apikey = "FILL"
+
     listing_url = input("Welcome to Recruit_Link!  Please enter a job listing's LinkedIn url:\n")
-    name, title, profile, company, company_website, job_title = find_contact(listing_url)
-    print(f"Now searching for:\n"
-          f"{name.strip()}", ",", f"{title.strip()}\n")
+    name, title, profile, company, company_website, job_title = \
+        find_contact(listing_url, linkedin_username, linkedin_passkey)
+    print(f"Now searching for: {name.strip()}, {title.strip()}\n")
 
     message = f"Hi {name.split()[0]},\n" \
               f"\n" \
@@ -28,16 +32,18 @@ def main():
 
     name = name.lower()
     company_email = company_website.replace("https://www.", "@").replace("http://www.", "@")
-    patterns = ["finitiallast", "finitial.last", "firstlast", "first.last", "first", "firstlinitial", "first.linitial"]
+    patterns = ["finitiallast", "finitial.last", "firstlast", "first.last",
+                "first", "last", "firstlinitial", "first.linitial"]
     patterns = [pattern
                     .replace("first", name.split()[0])
                     .replace("last", name.split()[1])
                     .replace("finitial", name.split()[0][0])
                     .replace("linitial", name.split()[1][0]) + company_email for pattern in patterns]
 
-    hunter = PyHunter("FILL")  # Hunter API Key here
+    hunter = PyHunter(hunter_apikey)  # Hunter API Key here
     hunter_email, confidence_score = hunter.email_finder(company_website, full_name=name)
     emails = [hunter_email] + patterns
+
     for email in emails:
         print(f"Checking {email}...")
         verification = hunter.email_verifier(email)
