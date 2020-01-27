@@ -7,10 +7,10 @@ from pyhunter import PyHunter
 
 
 def main():
-    linkedin_username = "rdan689@gmail.com"
-    linkedin_passkey = "sidious6"
-    hunter_apikey = "2fff6266c0128bb9a02a365efd5c661dbe6fc90a"
-    chromedriver_dir = "/home/danrothdsp/chromedriver"
+    linkedin_username = "FILL"
+    linkedin_passkey = "FILL"
+    hunter_apikey = "FILL"
+    chromedriver_dir = "FILL"
 
     listing_url = input("Welcome to Recruit_Link!  Please enter a job listing's LinkedIn url:\n")
     name, title, profile, company, company_website, job_title = \
@@ -41,7 +41,6 @@ def main():
                                    .replace("http:", "@")\
                                    .replace(r"\.com.*$", ".com")\
                                    .replace("/", "")
-    print(company_email)
     patterns = ["finitiallast", "finitial.last", "firstlast", "first.last",
                 "first", "last", "firstlinitial", "first.linitial"]
     patterns = [pattern
