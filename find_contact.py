@@ -1,4 +1,4 @@
-import time
+import time, sys
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -63,6 +63,10 @@ def find_contact(listing_url, username, passkey, chromedriver):
                                                                   {"data-control-name": "people_profile_card_name_link"})]
     company_website = people_soup.find("a", class_="org-top-card-primary-actions__action ember-view")['href']
     contacts = list(zip(names, titles, profiles))
+
+    if not contacts:
+        print("No contacts found, sorry.")
+        sys.exit()
 
     print("Found the following contacts:\n")
     for idx, (name, title, profile) in enumerate(contacts[:20]):
