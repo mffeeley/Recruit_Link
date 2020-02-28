@@ -4,7 +4,14 @@ This repository includes code for Recruit_Link, a command-line utility that can 
 
 ## Getting Started
 
-Fill in the code where it says "FILL".  The 3 locations that much be filled in are the chromedriver local directory, LinkedIn credentials, and Hunter.io API key.  Once that has been done, you can run the app using:
+Create a .env in the app directory and create and fill in the following variables:
+```
+LINKEDIN_USER="linkedin_username"
+LINKEDIN_PASS="linkedin_password"
+HUNTER_API="hunter api key"
+CHROMEDRIVER="chromedriver location"
+```
+Once that has been done, you can run the app using:
 
 ```python
 python app.py
@@ -36,7 +43,7 @@ Version 1.0
 
 ## Authors
 
-* **Dan Roth** - *Initial Work*
+* **Dan Roth** - *LinkedIn Webscraper and Hunter.IO Email Checker*
 * **Mike Feeley** - *Email checker alt script*
 
 

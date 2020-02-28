@@ -1,7 +1,47 @@
-import time, sys
+import time
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+
+
+def find_people(driver, keyword):
+    company_soup = BeautifulSoup(driver.page_source, 'html.parser')
+    people_url = "https://www.linkedin.com" + \
+                 company_soup.find("li", class_="org-page-navigation__item ember-view").a['href'] + \
+                 "people/?facetGeoRegion=us%3A70&keywords=" + keyword
+    driver.get(people_url)
+
+    scroll_time = 0.5
+    # Get scroll height
+    last_height = driver.execute_script("return document.body.scrollHeight")
+    while True:
+        # Scroll down to bottom
+        driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+
+        # Wait to load page
+        time.sleep(scroll_time)
+
+        # Calculate new scroll height and compare with last scroll height
+        new_height = driver.execute_script("return document.body.scrollHeight")
+        if new_height == last_height:
+            break
+        last_height = new_height
+    time.sleep(1)
+
+    people_soup = BeautifulSoup(driver.page_source, 'html.parser')
+    names = people_soup. \
+        find_all("div", class_=
+    "org-people-profile-card__profile-title t-black lt-line-clamp lt-line-clamp--single-line ember-view")
+    titles = people_soup. \
+        find_all("div",
+                 class_="lt-line-clamp lt-line-clamp--multi-line ember-view")
+    profiles = [people['href'] for people in people_soup.find_all("a",
+                                                                  {
+                                                                      "data-control-name": "people_profile_card_name_link"})]
+    company_website = people_soup.find("a", class_="org-top-card-primary-actions__action ember-view")['href']
+    contacts = list(zip(names, titles, profiles))
+
+    return contacts, company_website
 
 
 def find_contact(listing_url, username, passkey, chromedriver):
@@ -29,49 +69,20 @@ def find_contact(listing_url, username, passkey, chromedriver):
 
     company_url = listing_soup.find("a", class_="topcard__org-name-link topcard__flavor--black-link")['href']
     driver.get(company_url)
-    company_soup = BeautifulSoup(driver.page_source, 'html.parser')
-    people_url = "https://www.linkedin.com" + \
-                 company_soup.find("li", class_="org-page-navigation__item ember-view").a['href'] +\
-                 "people/?facetGeoRegion=us%3A70&keywords=recruiter"
-    driver.get(people_url)
+    contacts, company_website = find_people(driver, "recruiter%20OR%20acquisitions%20OR%20data%20OR%20hiring")
 
-    scroll_time = 0.5
-    # Get scroll height
-    last_height = driver.execute_script("return document.body.scrollHeight")
-    while True:
-        # Scroll down to bottom
-        driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-
-        # Wait to load page
-        time.sleep(scroll_time)
-
-        # Calculate new scroll height and compare with last scroll height
-        new_height = driver.execute_script("return document.body.scrollHeight")
-        if new_height == last_height:
-            break
-        last_height = new_height
-    time.sleep(1)
-
-    people_soup = BeautifulSoup(driver.page_source, 'html.parser')
-    names = people_soup.\
-        find_all("div", class_=
-            "org-people-profile-card__profile-title t-black lt-line-clamp lt-line-clamp--single-line ember-view")
-    titles = people_soup. \
-        find_all("div",
-                 class_="lt-line-clamp lt-line-clamp--multi-line ember-view")
-    profiles = [people['href'] for people in people_soup.find_all("a",
-                                                                  {"data-control-name": "people_profile_card_name_link"})]
-    company_website = people_soup.find("a", class_="org-top-card-primary-actions__action ember-view")['href']
-    contacts = list(zip(names, titles, profiles))
+    if not contacts:
+        contacts, company_website = find_people(driver, "")
 
     if not contacts:
         print("No contacts found, sorry.")
-        sys.exit()
+        exit()
 
     print("Found the following contacts:\n")
     for idx, (name, title, profile) in enumerate(contacts[:20]):
         print(f"{idx+1} -  {name.text.strip()}, {title.text.strip()}")
     contact = int(input("\nChoose a contact from the list above.\n")) - 1
+
     name, title, profile = contacts[contact][0].text, contacts[contact][1].text, contacts[contact][2]
     profile = "https://www.linkedin.com" + profile
 
